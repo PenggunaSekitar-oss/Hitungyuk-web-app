@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Poppins:wght@600;700&family=Archivo+Black&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 97%;
+    --foreground: 0 0% 0%;
+
+    --card: 267 100% 50%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 97%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 267 100% 50%; /* #6F00FF */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 256 100% 43%; /* #3B00DB */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 40% 93%;
+    --muted-foreground: 215.4 16.3% 30%;
+
+    --accent: 40 100% 50%; /* Bright Yellow #FFCC00 */
+    --accent-foreground: 0 0% 0%;
+
+    --success: 142 70% 45%; /* Bright Green */
+    --success-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 267 100% 50%;
+
+    --radius: 0;
+    
+    --textGray: 0 0% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-[hsl(var(--border))];
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #f0f0f0;
+    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
+    font-weight: 900;
+  }
+
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    color: #333333;
+    font-weight: 500;
+  }
+  
+  /* Modern scrollbar */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: white;
+    border: 2px solid black;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary));
+    border: 2px solid black;
+  }
+}
+
+@layer components {
+  .neu-card {
+    @apply bg-white border-4 border-black rounded-none shadow-[5px_5px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neu-card-colorful {
+    @apply border-4 border-black rounded-none shadow-[5px_5px_0px_0px_rgba(0,0,0,1)];
+  }
+
+  .neu-button {
+    @apply px-4 py-3 font-extrabold text-lg bg-primary text-white border-4 border-black rounded-none shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-y-[-4px] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neu-button-secondary {
+    @apply px-4 py-3 font-extrabold text-lg bg-secondary text-white border-4 border-black rounded-none shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-y-[-4px] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neu-button-accent {
+    @apply px-4 py-3 font-extrabold text-lg bg-accent text-black border-4 border-black rounded-none shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-y-[-4px] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-y-[0px] active:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)];
+  }
+
+  .neu-input {
+    @apply bg-white border-4 border-black rounded-none shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] focus:translate-y-[-2px] transition-all;
+  }
+  
+  .neu-select {
+    @apply bg-white border-4 border-black rounded-none shadow-[3px_3px_0px_0px_rgba(0,0,0,1)];
+  }
+  
+  .neu-badge {
+    @apply px-3 py-1 text-sm font-extrabold bg-accent text-black border-4 border-black rounded-none;
+  }
+  
+  .neu-heading {
+    @apply text-2xl font-extrabold border-b-4 border-black pb-2 mb-6;
+  }
+  
+  /* Cool underline effect for text */
+  .text-highlight {
+    @apply relative inline-block;
+    text-decoration: none;
+  }
+  
+  .text-highlight::after {
+    content: '';
+    @apply absolute bg-accent h-3 w-full left-0 bottom-0 -z-10;
+  }
+}
