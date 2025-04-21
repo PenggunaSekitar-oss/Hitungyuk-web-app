@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, LoginFormData } from '../lib/auth-types';
 import { AuthService } from '../lib/auth-service';
-import { useNavigate, Link } from 'wouter';
+import { useLocation, Link } from 'wouter';
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
       }
       
       // Redirect to dashboard
-      navigate('/dashboard');
+      setLocation('/dashboard');
     } catch (err) {
       setError('Terjadi kesalahan saat login. Silakan coba lagi.');
       console.error(err);
