@@ -24,6 +24,8 @@ const AuthenticatedApp = () => {
           <Route path="/custom" component={Custom} />
           <Route path="/datacenter" component={DataCenter} />
           <Route path="/profile" component={Profile} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
           <Route component={NotFound} />
         </Switch>
       </div>
@@ -36,19 +38,19 @@ const UnauthenticatedApp = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-24">
         <Switch>
+          <Route path="/" component={Dashboard} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route>
-            {() => {
-              // Redirect to login for any other route when not authenticated
-              window.location.href = '/login';
-              return null;
-            }}
-          </Route>
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/calculator" component={Calculator} />
+          <Route path="/custom" component={Custom} />
+          <Route path="/datacenter" component={DataCenter} />
+          <Route component={NotFound} />
         </Switch>
       </div>
+      <BottomNavbar />
     </>
   );
 };
