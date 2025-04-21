@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  css: {
+    postcss: './postcss.config.js',
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
@@ -15,5 +18,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     emptyOutDir: true,
+    cssCodeSplit: false,
   },
 });
