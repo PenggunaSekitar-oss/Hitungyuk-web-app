@@ -1,41 +1,71 @@
-import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import React from 'react';
+import { Route, Switch } from 'wouter';
+import Dashboard from './pages/Dashboard';
+import Calculator from './pages/Calculator';
+import Custom from './pages/Custom';
+import DataCenter from './pages/DataCenter';
+import Profile from './pages/Profile';
+import NotFound from './pages/not-found';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Navbar from './components/Navbar';
+import { AuthProvider, ProtectedRoute, useAuth } from './lib/auth-context';
 
-import MainLayout from "@/components/layouts/MainLayout";
-import Dashboard from "@/pages/Dashboard";
-import Custom from "@/pages/Custom";
-import Calculator from "@/pages/Calculator";
-import DataCenter from "@/pages/DataCenter";
-import Profile from "@/pages/Profile";
-import NotFound from "@/pages/not-found";
-
-function Router() {
+const AuthenticatedApp = () => {
   return (
-    <MainLayout>
-      <Switch>
-        <Route path="/" component={Dashboard} />
-        <Route path="/custom" component={Custom} />
-        <Route path="/calculator" component={Calculator} />
-        <Route path="/data-center" component={DataCenter} />
-        <Route path="/profile" component={Profile} />
-        <Route component={NotFound} />
-      </Switch>
-    </MainLayout>
+    <>
+      <Navbar />
+      <div className="container mx-auto px-4 py-8">
+        <Switch>
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/calculator" component={Calculator} />
+          <Route path="/custom" component={Custom} />
+          <Route path="/datacenter" component={DataCenter} />
+          <Route path="/profile" component={Profile} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </>
   );
-}
+};
 
-function App() {
+const UnauthenticatedApp = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Router />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <>
+      <Navbar />
+      <div className="container mx-auto px-4 py-8">
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route>
+            {() => {
+              // Redirect to login for any other route when not authenticated
+              window.location.href = '/login';
+              return null;
+            }}
+          </Route>
+        </Switch>
+      </div>
+    </>
   );
-}
+};
+
+const AppRoutes = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+
+  return isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />;
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
+};
 
 export default App;

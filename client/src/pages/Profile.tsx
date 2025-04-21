@@ -3,8 +3,10 @@ import { toast } from "@/hooks/use-toast";
 import { Label } from "@/components/ui/label";
 import { getProfile, updateProfile } from "@/lib/storage";
 import { UserProfile } from "@/lib/types";
+import { useAuth } from "../lib/auth-context";
 
 export default function Profile() {
+  const { user, logout } = useAuth();
   const [profile, setProfile] = useState<UserProfile>({
     username: "",
     email: "",
@@ -15,8 +17,13 @@ export default function Profile() {
 
   useEffect(() => {
     const profileData = getProfile();
-    setProfile(profileData);
-  }, []);
+    // Merge profile data with authenticated user data
+    setProfile({
+      ...profileData,
+      username: user?.username || profileData.username,
+      email: user?.email || profileData.email,
+    });
+  }, [user]);
 
   const handlePhotoUpload = () => {
     if (fileInputRef.current) {
@@ -66,6 +73,11 @@ export default function Profile() {
         variant: "destructive",
       });
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    // Navigation is handled by the auth context and App.tsx
   };
 
   return (
@@ -173,7 +185,10 @@ export default function Profile() {
           </button>
         </div>
         <div>
-          <button className="w-full py-4 px-5 flex justify-between items-center hover:bg-red-50 transition-colors">
+          <button 
+            onClick={handleLogout}
+            className="w-full py-4 px-5 flex justify-between items-center hover:bg-red-50 transition-colors"
+          >
             <span className="font-bold text-red-500">Keluar</span>
             <div className="bg-red-500 w-8 h-8 flex items-center justify-center border-2 border-black">
               <i className="fa-solid fa-arrow-right-from-bracket text-white"></i>
