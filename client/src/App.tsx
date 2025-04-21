@@ -9,13 +9,14 @@ import NotFound from './pages/not-found';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Navbar from './components/Navbar';
+import BottomNavbar from './components/BottomNavbar';
 import { AuthProvider, ProtectedRoute, useAuth } from './lib/auth-context';
 
 const AuthenticatedApp = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-24">
         <Switch>
           <Route path="/" component={Dashboard} />
           <Route path="/dashboard" component={Dashboard} />
@@ -26,6 +27,7 @@ const AuthenticatedApp = () => {
           <Route component={NotFound} />
         </Switch>
       </div>
+      <BottomNavbar />
     </>
   );
 };
