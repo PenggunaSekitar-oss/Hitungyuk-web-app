@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User } from './auth-types';
 import { AuthService } from './auth-service';
+import { useLocation } from 'wouter';
 
 // Define the shape of our auth context
 interface AuthContextType {
@@ -119,13 +120,13 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
-  const navigate = useNavigate();
+  const [, setLocation] = useLocation();
   
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      navigate('/login');
+      setLocation('/login');
     }
-  }, [isAuthenticated, isLoading, navigate]);
+  }, [isAuthenticated, isLoading, setLocation]);
 
   if (isLoading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
@@ -133,6 +134,3 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   return isAuthenticated ? <>{children}</> : null;
 };
-
-// Import for useNavigate
-import { useNavigate } from 'wouter';
