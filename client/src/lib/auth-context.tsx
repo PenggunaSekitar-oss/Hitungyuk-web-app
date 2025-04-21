@@ -27,43 +27,63 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check for existing session on mount
   useEffect(() => {
-    const checkAuth = () => {
-      const currentUser = AuthService.getCurrentUser();
-      setUser(currentUser);
-      setIsLoading(false);
+    const checkAuth = async () => {
+      try {
+        const currentUser = AuthService.getCurrentUser();
+        setUser(currentUser);
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
-    checkAuth();
+    // Short timeout to ensure localStorage is initialized
+    setTimeout(checkAuth, 100);
   }, []);
 
   // Login function
   const login = async (email: string, password: string): Promise<User | null> => {
-    const loggedInUser = AuthService.login({ email, password });
-    setUser(loggedInUser);
-    return loggedInUser;
+    try {
+      const loggedInUser = AuthService.login({ email, password });
+      setUser(loggedInUser);
+      return loggedInUser;
+    } catch (error) {
+      console.error("Login error:", error);
+      return null;
+    }
   };
 
   // Logout function
   const logout = () => {
-    AuthService.logout();
-    setUser(null);
+    try {
+      AuthService.logout();
+      setUser(null);
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
 
   // Register function
   const register = async (username: string, email: string, password: string): Promise<User | null> => {
-    const newUser = AuthService.register({
-      username,
-      email,
-      password,
-      confirmPassword: password
-    });
-    
-    if (newUser) {
-      // Auto login after registration
-      setUser(newUser);
+    try {
+      const newUser = AuthService.register({
+        username,
+        email,
+        password,
+        confirmPassword: password
+      });
+      
+      if (newUser) {
+        // Auto login after registration is handled in auth-service
+        setUser(newUser);
+      }
+      
+      return newUser;
+    } catch (error) {
+      console.error("Registration error:", error);
+      return null;
     }
-    
-    return newUser;
   };
 
   // Value object to be provided to consumers

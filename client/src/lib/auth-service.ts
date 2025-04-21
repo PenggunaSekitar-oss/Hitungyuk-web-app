@@ -38,6 +38,10 @@ export const AuthService = {
 
     // Save user
     AuthService.saveUsers([...users, newUser]);
+    
+    // Auto login after registration
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+    
     return newUser;
   },
 
@@ -59,7 +63,16 @@ export const AuthService = {
   // Get current logged in user
   getCurrentUser: (): User | null => {
     const userJson = localStorage.getItem(CURRENT_USER_KEY);
-    return userJson ? JSON.parse(userJson) : null;
+    // Check if userJson is null or "null" string
+    if (!userJson || userJson === "null") {
+      return null;
+    }
+    try {
+      return JSON.parse(userJson);
+    } catch (e) {
+      console.error("Error parsing user data:", e);
+      return null;
+    }
   },
 
   // Logout user
